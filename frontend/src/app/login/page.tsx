@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/auth-store";
 import { Mail, Lock, Eye, EyeOff, ArrowRight } from "lucide-react";
-import { GoogleLoginButton } from "@/components/google-login-button";
+import { GoogleLoginButton } from "@/components/auth/google-login-button";
 import toast from "react-hot-toast";
 
 export default function LoginPage() {

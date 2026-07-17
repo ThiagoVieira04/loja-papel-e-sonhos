@@ -2,7 +2,7 @@ import { Controller, Get, Post, Param, UseGuards, Request } from '@nestjs/common
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { FavoritesService } from './favorites.service';
 
-@Controller('api/favorites')
+@Controller('favorites')
 export class FavoritesController {
   constructor(private favoritesService: FavoritesService) {}
 

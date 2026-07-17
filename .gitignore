@@ -14,14 +14,10 @@ backend/dist/
 backend/uploads/*
 !backend/uploads/.gitkeep
 backend/pgdata/
+backend/*.log
 
 # IDE
 .vscode/
 .idea/
 *.swp
 *.swo
-
-# Root scaffolding
-/index.html
-/script.js
-/style.css
