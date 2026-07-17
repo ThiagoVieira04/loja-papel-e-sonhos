@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Sitemap: https://papelesonhos.com.br/sitemap.xml
+
+# Disallow admin
+Disallow: /admin
+Disallow: /api

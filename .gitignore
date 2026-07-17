@@ -1,0 +1,27 @@
+node_modules/
+.next/
+.env
+.env.local
+*.log
+dist/
+.turbo/
+*.tsbuildinfo
+next-env.d.ts
+
+# Backend
+backend/node_modules/
+backend/dist/
+backend/uploads/*
+!backend/uploads/.gitkeep
+backend/pgdata/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Root scaffolding
+/index.html
+/script.js
+/style.css
