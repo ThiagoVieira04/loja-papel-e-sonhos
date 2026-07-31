@@ -9,7 +9,7 @@ import { v4 as uuid } from 'uuid';
   imports: [
     MulterModule.register({
       storage: diskStorage({
-        destination: join(__dirname, '../../uploads'),
+        destination: process.env.UPLOAD_DIR || join(__dirname, '../../uploads'),
         filename: (_req, file, cb) => {
           const ext = extname(file.originalname);
           cb(null, `${uuid()}${ext}`);
