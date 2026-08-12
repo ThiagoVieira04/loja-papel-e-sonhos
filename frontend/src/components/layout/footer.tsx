@@ -42,7 +42,7 @@ export function Footer() {
               </div>
             </Link>
             <p className="text-sm leading-relaxed mb-6">
-              Papelaria Criativa & Informática. Transformamos ideias em memórias que encantam. Há mais de 5 anos realizando projetos com qualidade e carinho.
+              Papelaria Criativa & Informática. Transformamos ideias em memórias que encantam. Há mais de 10 anos realizando projetos com qualidade e carinho.
             </p>
             <div className="flex gap-3">
               <a
