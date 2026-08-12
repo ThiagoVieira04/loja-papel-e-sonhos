@@ -6,59 +6,7 @@ import {
   DEFAULT_WHATSAPP_MESSAGE,
   whatsappLink,
 } from "@/lib/whatsapp";
-
-const faqData = [
-  {
-    question: "Quanto tempo leva para ficar pronto?",
-    answer:
-      "Depende do serviço. Serviços rápidos como xérox e impressão ficam prontos na hora. Personalizados como lembrancinhas e agendas levam de 3 a 7 dias úteis. Produtos como camisas e canecas podem levar de 5 a 10 dias úteis.",
-  },
-  {
-    question: "Vocês entregam na região?",
-    answer:
-      "Sim! Realizamos entregas na região do Rio de Janeiro. Consulte o valor do frete no momento do orçamento pelo WhatsApp.",
-  },
-  {
-    question: "Aceitam cartão e PIX?",
-    answer:
-      "Aceitamos PIX, cartões de crédito e débito (à vista ou parcelado) e dinheiro.",
-  },
-  {
-    question: "Preciso levar algo para fazer xérox ou escaneamento?",
-    answer:
-      "Pode trazer o documento físico até nossa loja ou enviar digitalizado pelo WhatsApp que nós imprimimos.",
-  },
-  {
-    question: "Atendem empresas?",
-    answer:
-      "Sim! Temos pacotes corporativos para empresas que precisam de impressões periódicas, papelaria personalizada ou suporte de informática. Entre em contato para mais detalhes.",
-  },
-  {
-    question: "Como faço para solicitar um orçamento?",
-    answer:
-      "É很简单! Basta entrar em contato pelo WhatsApp, Instagram ou vir até nossa loja. Conte sua ideia ou necessidade e retornamos com o orçamento personalizado em até 24 horas.",
-  },
-  {
-    question: "Posso personalizar os produtos?",
-    answer:
-      "Sim! A maioria dos nossos produtos pode ser personalizada com fotos, textos e cores à sua escolha. Entre em contato para conversarmos sobre o seu projeto.",
-  },
-  {
-    question: "Vocês fazem imposto de renda?",
-    answer:
-      "Sim! Auxiliamos na elaboração, envio e regularização da declaração anual de ajuste do imposto de renda da pessoa física e MEI. Agende um horário pelo WhatsApp.",
-  },
-  {
-    question: "Como funciona o serviço de recuperação de conta GOV?",
-    answer:
-      "Ajudamos na recuperação de acessos, redefinição de senhas, validações faciais e aumento de nível (bronze, prata, ouro) no portal Gov.br.",
-  },
-  {
-    question: "Posso parcelar minhas compras?",
-    answer:
-      "Sim! Aceitamos parcelamento em até 6x no cartão de crédito para compras acima de R$ 100,00.",
-  },
-];
+import { FAQ_ITEMS } from "@/constants/faq";
 
 export default function FAQPage() {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -76,7 +24,7 @@ export default function FAQPage() {
         </div>
 
         <div className="space-y-3">
-          {faqData.map((item, index) => (
+          {FAQ_ITEMS.map((item, index) => (
             <div
               key={index}
               className="bg-card rounded-2xl border border-border overflow-hidden"

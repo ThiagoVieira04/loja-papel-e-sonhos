@@ -27,6 +27,7 @@ import {
 import { QuoteButtons } from "@/components/whatsapp/quote-buttons";
 import { WHATSAPP_URL, WHATSAPP_TELEPHONE } from "@/lib/whatsapp";
 import { APP } from "@/constants/app";
+import { SITE_URL } from "@/constants/seo";
 
 export const metadata: Metadata = {
   title: "Papel e Sonhos | Papelaria Criativa e Informática",
@@ -153,12 +154,28 @@ export default function HomePage() {
             "@context": "https://schema.org",
             "@type": "Store",
             name: "Papel e Sonhos",
+            image: `${SITE_URL}/logo.png`,
             description:
               "Papelaria criativa e informática. Produtos personalizados, impressão e serviços digitais.",
             telephone: WHATSAPP_TELEPHONE,
             priceRange: "Sob consulta",
-            areaServed: "Magé, RJ",
-            address: APP.address,
+            areaServed: `${APP.locality}, ${APP.region}`,
+            url: SITE_URL,
+            sameAs: [APP.instagramUrl, APP.googleReviewUrl.split("/review")[0]],
+            address: {
+              "@type": "PostalAddress",
+              streetAddress: APP.address,
+              addressLocality: APP.locality,
+              addressRegion: APP.region,
+              addressCountry: "BR",
+              postalCode: APP.postalCode,
+            },
+            geo: {
+              "@type": "GeoCoordinates",
+              latitude: APP.geo.lat,
+              longitude: APP.geo.lng,
+            },
+            openingHours: APP.openingHours,
           }),
         }}
       />

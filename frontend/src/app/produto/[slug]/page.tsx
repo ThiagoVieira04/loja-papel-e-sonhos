@@ -18,6 +18,7 @@ import { getCatalogIcon, getCategoryStyle } from "@/lib/catalog-ui";
 import { ItemGallery } from "@/components/catalog/item-gallery";
 import { QuoteForm } from "@/components/catalog/quote-form";
 import { QuoteButtons } from "@/components/whatsapp/quote-buttons";
+import { SITE_URL } from "@/constants/seo";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -37,9 +38,12 @@ export async function generateMetadata({
   return {
     title: item.name,
     description: item.summary,
+    alternates: { canonical: `/produto/${item.slug}` },
     openGraph: {
       title: `${item.name} | Papel e Sonhos`,
       description: item.summary,
+      url: `${SITE_URL}/produto/${item.slug}`,
+      type: "website",
     },
   };
 }
@@ -59,6 +63,31 @@ export default async function ProductDetailPage({ params }: PageProps) {
 
   return (
     <div className="pt-24 pb-16">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Início", item: SITE_URL },
+              { "@type": "ListItem", position: 2, name: "Catálogo", item: `${SITE_URL}/catalogo` },
+              {
+                "@type": "ListItem",
+                position: 3,
+                name: category?.name ?? item.category,
+                item: `${SITE_URL}/catalogo`,
+              },
+              {
+                "@type": "ListItem",
+                position: 4,
+                name: item.name,
+                item: `${SITE_URL}/produto/${item.slug}`,
+              },
+            ],
+          }),
+        }}
+      />
       <div className="container">
         <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-6 overflow-x-auto whitespace-nowrap" aria-label="Trilha de navegação">
           <Link href="/" className="hover:text-primary transition-colors">

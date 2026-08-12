@@ -9,6 +9,13 @@ export const APP = {
   address:
     "Rua Bráulio Mariano Vidal, 610 - Parque dos Artistas, Magé - RJ, 25919-309",
   addressShort: "Parque dos Artistas, Magé - RJ",
+  locality: "Piabetá",
+  region: "Magé",
+  state: "RJ",
+  postalCode: "25919-309",
+  geo: { lat: -22.6541, lng: -43.0466 },
+  openingHours: "Mo,Tu,We,Th,Fr 08:00-18:00;Sa 08:00-12:00",
+  siteUrl: "https://loja-five-gold.vercel.app",
   googleMapsUrl: "https://share.google/ZEfD2dxPvPTS2gJ4K",
   googleReviewUrl: "https://g.page/r/CXUQrjKh4lJtEAE/review",
   mapsEmbedUrl:

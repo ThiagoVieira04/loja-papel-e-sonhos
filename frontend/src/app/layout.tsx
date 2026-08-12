@@ -7,6 +7,8 @@ import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { WhatsAppFloat } from "@/components/layout/whatsapp-float";
 import { CartDrawer } from "@/components/layout/cart-drawer";
+import { APP } from "@/constants/app";
+import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/constants/seo";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -21,31 +23,41 @@ const quicksand = Quicksand({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: "Papel e Sonhos | Papelaria Criativa & Informática",
+    default: `${SITE_NAME} | Papelaria Criativa e Informática em Piabetá, Magé - RJ`,
     template: "%s | Papel e Sonhos",
   },
-  description:
-    "Transformamos ideias em memórias que encantam! Papelaria personalizada, serviços de informática, documentos governamentais e muito mais.",
+  description: SITE_DESCRIPTION,
   keywords: [
+    "papel e sonhos",
     "papelaria criativa",
-    "informática",
+    "papelaria personalizada",
     "personalizados",
-    "documentos",
-    "serviços governamentais",
-    "aposentadoria",
-    "MEI",
-    "imposto de renda",
+    "impressão",
+    "gráfica",
+    "serviços de informática",
+    "Piabetá",
+    "Magé",
+    "RJ",
   ],
-  authors: [{ name: "Papel e Sonhos" }],
-  creator: "Papel e Sonhos",
+  authors: [{ name: SITE_NAME }],
+  creator: SITE_NAME,
+  applicationName: SITE_NAME,
   openGraph: {
     type: "website",
     locale: "pt_BR",
-    siteName: "Papel e Sonhos",
-    title: "Papel e Sonhos | Papelaria Criativa & Informática",
-    description:
-      "Transformamos ideias em memórias que encantam! Qualidade, criatividade e amor em cada detalhe.",
+    siteName: SITE_NAME,
+    url: SITE_URL,
+    title: `${SITE_NAME} | Papelaria Criativa e Informática em Piabetá, Magé - RJ`,
+    description: SITE_DESCRIPTION,
+    images: [{ url: "/logo.png", width: 512, height: 512, alt: SITE_NAME }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${SITE_NAME} | Papelaria Criativa e Informática`,
+    description: SITE_DESCRIPTION,
+    images: ["/logo.png"],
   },
   robots: {
     index: true,
@@ -55,7 +67,11 @@ export const metadata: Metadata = {
       follow: true,
       "max-video-preview": -1,
       "max-image-preview": "large",
+      "max-snippet": -1,
     },
+  },
+  alternates: {
+    canonical: "/",
   },
 };
 
