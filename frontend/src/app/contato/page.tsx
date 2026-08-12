@@ -248,14 +248,6 @@ export default function ContatoPage() {
                       <MapPin className="w-4 h-4" />
                       Abrir no Google Maps
                     </a>
-                    <a
-                      href={APP.googleReviewUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-5 py-3 bg-primary/10 text-primary text-sm font-bold rounded-xl hover:bg-primary hover:text-white transition-colors"
-                    >
-                      Ver avaliações
-                    </a>
                   </div>
                 </div>
               </div>
