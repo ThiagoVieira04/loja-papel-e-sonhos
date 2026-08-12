@@ -24,6 +24,9 @@ import {
   WORK_GRADIENTS,
   WORK_ITEMS,
 } from "@/constants/works";
+import { QuoteButtons } from "@/components/whatsapp/quote-buttons";
+import { WHATSAPP_URL, WHATSAPP_TELEPHONE } from "@/lib/whatsapp";
+import { APP } from "@/constants/app";
 
 export const metadata: Metadata = {
   title: "Papel e Sonhos | Papelaria Criativa e Informática",
@@ -38,10 +41,6 @@ export const metadata: Metadata = {
       "Transformamos ideias em memórias que encantam! Produtos personalizados, papelaria criativa e serviços de informática.",
   },
 };
-
-const WHATSAPP_URL = "https://wa.me/5521987172463";
-const waWithText = (text: string) =>
-  `https://wa.me/5521987172463?text=${encodeURIComponent(text)}`;
 
 const CATEGORY_CARDS = [
   {
@@ -156,9 +155,10 @@ export default function HomePage() {
             name: "Papel e Sonhos",
             description:
               "Papelaria criativa e informática. Produtos personalizados, impressão e serviços digitais.",
-            telephone: "+55-21-98717-2463",
+            telephone: WHATSAPP_TELEPHONE,
             priceRange: "Sob consulta",
-            areaServed: "Rio de Janeiro, RJ",
+            areaServed: "Magé, RJ",
+            address: APP.address,
           }),
         }}
       />
@@ -363,17 +363,11 @@ export default function HomePage() {
                   </div>
                 </Link>
                 <div className="px-4 pb-4 md:px-5 md:pb-5">
-                  <a
-                    href={waWithText(
-                      `Olá! Gostaria de solicitar um orçamento para ${item.title}.`
-                    )}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex w-full items-center justify-center gap-2 px-4 py-2.5 bg-green-500 text-white text-sm font-bold rounded-xl hover:bg-green-600 transition-colors"
-                  >
-                    <MessageCircle className="w-4 h-4" />
-                    Solicitar orçamento
-                  </a>
+                  <QuoteButtons
+                    produto={item.title}
+                    categoria="Produtos personalizados"
+                    variante="compacto"
+                  />
                 </div>
               </div>
             ))}
@@ -497,6 +491,15 @@ export default function HomePage() {
               >
                 <MessageCircle className="w-5 h-5" />
                 Falar pelo WhatsApp
+              </a>
+              <a
+                href={APP.googleReviewUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-8 py-4 bg-white/10 ring-1 ring-white/20 text-white font-bold rounded-full hover:bg-white/15 hover:-translate-y-0.5 transition-all"
+              >
+                <Star className="w-5 h-5 fill-current text-amber-400" />
+                Avaliar no Google
               </a>
             </div>
           </div>

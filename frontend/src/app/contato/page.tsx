@@ -4,19 +4,22 @@ import { useState } from "react";
 import {
   Clock,
   Instagram,
-  Lightbulb,
   MapPin,
   MessageCircle,
   Send,
+  Star,
 } from "lucide-react";
-
-const WHATSAPP_URL = "https://wa.me/5521987172463";
+import { APP } from "@/constants/app";
+import {
+  WHATSAPP_URL,
+  whatsappLink,
+} from "@/lib/whatsapp";
 
 const CONTACT_METHODS = [
   {
     icon: MessageCircle,
     title: "WhatsApp",
-    value: "(21) 98717-2463",
+    value: APP.phone,
     note: "Resposta rápida em horário comercial",
     href: WHATSAPP_URL,
     action: "Chamar no WhatsApp",
@@ -25,19 +28,19 @@ const CONTACT_METHODS = [
   {
     icon: Instagram,
     title: "Instagram",
-    value: "@papel_e_sonhos0504",
+    value: APP.instagram,
     note: "Acompanhe nossos trabalhos e novidades",
-    href: "https://instagram.com/papel_e_sonhos0504",
+    href: APP.instagramUrl,
     action: "Seguir no Instagram",
     color: "from-fuchsia-500 to-purple-500",
   },
   {
     icon: MapPin,
     title: "Endereço",
-    value: "[Endereço da loja]",
-    note: "Rio de Janeiro - RJ",
-    href: null,
-    action: null,
+    value: APP.address,
+    note: APP.addressShort,
+    href: APP.googleMapsUrl,
+    action: "Como chegar",
     color: "from-rose-500 to-pink-500",
   },
   {
@@ -66,7 +69,7 @@ export default function ContatoPage() {
     return parts.join("\n");
   };
 
-  const whatsappLink = `${WHATSAPP_URL}?text=${encodeURIComponent(buildMessage())}`;
+  const linkMensagem = whatsappLink(buildMessage());
 
   const inputClass =
     "w-full px-4 py-3 rounded-xl bg-muted border-none outline-none focus:ring-2 focus:ring-primary text-sm";
@@ -83,14 +86,6 @@ export default function ContatoPage() {
           <p className="text-muted-foreground">
             Estamos prontos para atender você. Escolha o canal preferido ou
             envie sua mensagem pelo formulário.
-          </p>
-        </div>
-
-        <div className="flex items-start gap-3 rounded-2xl border border-amber-200 bg-amber-50 dark:bg-amber-500/10 dark:border-amber-500/30 p-4 mb-10 max-w-3xl mx-auto">
-          <Lightbulb className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
-          <p className="text-sm text-amber-800 dark:text-amber-300">
-            As informações de contato exibidas abaixo são provisórias e serão
-            atualizadas com os dados oficiais da empresa.
           </p>
         </div>
 
@@ -143,7 +138,7 @@ export default function ContatoPage() {
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
-                  window.open(whatsappLink, "_blank", "noopener,noreferrer");
+                  window.open(linkMensagem, "_blank", "noopener,noreferrer");
                 }}
                 className="space-y-4"
               >
@@ -218,7 +213,7 @@ export default function ContatoPage() {
                 </div>
 
                 <a
-                  href={whatsappLink}
+                  href={linkMensagem}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex w-full items-center justify-center gap-2 px-6 py-3.5 bg-green-500 text-white font-bold rounded-xl hover:bg-green-600 hover:-translate-y-0.5 transition-all shadow-lg shadow-green-500/25"
@@ -227,6 +222,80 @@ export default function ContatoPage() {
                   Enviar pelo WhatsApp
                 </a>
               </form>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-14 max-w-5xl mx-auto">
+          <div className="rounded-3xl border border-border bg-card overflow-hidden">
+            <div className="p-6 md:p-8">
+              <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-6">
+                <div className="flex-1">
+                  <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-bold uppercase tracking-wider mb-3">
+                    Localização
+                  </span>
+                  <h2 className="text-2xl font-black mb-2">Onde estamos</h2>
+                  <p className="text-muted-foreground text-sm mb-4">
+                    {APP.address}
+                  </p>
+                  <div className="flex flex-wrap gap-3">
+                    <a
+                      href={APP.googleMapsUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-5 py-3 bg-primary text-white text-sm font-bold rounded-xl hover:bg-primary/90 hover:-translate-y-0.5 transition-all"
+                    >
+                      <MapPin className="w-4 h-4" />
+                      Abrir no Google Maps
+                    </a>
+                    <a
+                      href={APP.googleReviewUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-5 py-3 bg-primary/10 text-primary text-sm font-bold rounded-xl hover:bg-primary hover:text-white transition-colors"
+                    >
+                      Ver avaliações
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <iframe
+              src={APP.mapsEmbedUrl}
+              title="Mapa - Papel e Sonhos"
+              className="w-full h-72 md:h-80 border-0"
+              loading="lazy"
+              allowFullScreen
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+          </div>
+        </div>
+
+        <div className="mt-10 max-w-5xl mx-auto">
+          <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-dark-900 via-dark-100 to-dark-900 px-6 py-12 md:p-14 text-center">
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_20%_50%,rgba(251,191,36,0.12),transparent_60%)]" />
+            <div className="relative z-10 max-w-2xl mx-auto">
+              <div className="flex justify-center gap-1 mb-4 text-amber-400">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <Star key={i} className="w-6 h-6 fill-current" />
+                ))}
+              </div>
+              <h2 className="text-2xl md:text-3xl font-black text-white mb-3">
+                Gostou do nosso atendimento?
+              </h2>
+              <p className="text-white/60 mb-8">
+                Sua avaliação no Google ajuda outras pessoas a conhecerem nosso
+                trabalho — e motiva nossa equipe a cada dia!
+              </p>
+              <a
+                href={APP.googleReviewUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-8 py-4 bg-white text-dark-900 font-bold rounded-full hover:bg-amber-100 hover:-translate-y-0.5 transition-all shadow-lg shadow-black/20"
+              >
+                <Star className="w-5 h-5 fill-current" />
+                Avaliar no Google
+              </a>
             </div>
           </div>
         </div>

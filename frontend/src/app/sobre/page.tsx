@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { WHATSAPP_URL } from "@/lib/whatsapp";
 import {
   Accessibility,
   Award,
@@ -554,7 +555,7 @@ export default function SobrePage() {
                   Entrar em contato
                 </Link>
                 <a
-                  href="https://wa.me/5521987172463"
+                  href={WHATSAPP_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-8 py-4 bg-green-500 text-white font-bold rounded-full hover:bg-green-600 hover:-translate-y-0.5 transition-all shadow-lg shadow-green-500/30"

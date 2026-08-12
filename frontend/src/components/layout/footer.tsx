@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import { APP } from "@/constants/app";
+import { WHATSAPP_URL } from "@/lib/whatsapp";
 
 const footerLinks = {
   navegacao: [
@@ -18,9 +20,10 @@ const footerLinks = {
     { label: "Informática", href: "/categorias/informatica" },
   ],
   contato: [
-    { label: "(21) 98717-2463", href: "https://wa.me/5521987172463" },
-    { label: "@papel_e_sonhos0504", href: "https://instagram.com/papel_e_sonhos0504" },
-    { label: "Rio de Janeiro - RJ", href: "#" },
+    { label: APP.phone, href: WHATSAPP_URL },
+    { label: APP.instagram, href: APP.instagramUrl },
+    { label: APP.addressShort, href: APP.googleMapsUrl, external: true },
+    { label: "Avaliar no Google", href: APP.googleReviewUrl, external: true },
   ],
 };
 
@@ -43,7 +46,7 @@ export function Footer() {
             </p>
             <div className="flex gap-3">
               <a
-                href="https://wa.me/5521987172463"
+                href={WHATSAPP_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-white/60 hover:bg-primary hover:text-white transition-all"
@@ -51,7 +54,7 @@ export function Footer() {
                 <i className="fab fa-whatsapp" />
               </a>
               <a
-                href="https://instagram.com/papel_e_sonhos0504"
+                href={APP.instagramUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-white/60 hover:bg-primary hover:text-white transition-all"
@@ -108,6 +111,7 @@ export function Footer() {
                       {idx === 0 && <i className="fab fa-whatsapp text-primary" />}
                       {idx === 1 && <i className="fab fa-instagram text-primary" />}
                       {idx === 2 && <i className="fas fa-map-marker-alt text-primary" />}
+                      {idx === 3 && <i className="fab fa-google text-primary" />}
                       {item.label}
                     </a>
                   ) : (

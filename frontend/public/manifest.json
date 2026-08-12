@@ -46,7 +46,7 @@
       "name": "Contato",
       "short_name": "Contato",
       "description": "Entrar em contato",
-      "url": "https://wa.me/5521987172463"
+      "url": "/contato"
     }
   ]
 }

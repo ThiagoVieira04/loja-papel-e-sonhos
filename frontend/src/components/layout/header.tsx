@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { useAuthStore } from "@/store/auth-store";
 import { useCartStore } from "@/store/cart-store";
 import { useTheme } from "next-themes";
+import { WHATSAPP_URL } from "@/lib/whatsapp";
 import {
   Search,
   ShoppingCart,
@@ -139,7 +140,7 @@ export function Header() {
 
             <div className="flex items-center gap-2">
               <a
-                href="https://wa.me/5521987172463"
+                href={WHATSAPP_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`hidden lg:inline-flex items-center gap-2 px-4 py-2.5 bg-green-500 text-white text-sm font-bold rounded-xl hover:bg-green-600 hover:-translate-y-0.5 transition-all shadow-lg shadow-green-500/25 ${
@@ -363,7 +364,7 @@ export function Header() {
               </Link>
               <hr className="my-2 border-border" />
               <a
-                href="https://wa.me/5521987172463"
+                href={WHATSAPP_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-green-500 text-white font-bold text-center"

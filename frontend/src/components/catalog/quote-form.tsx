@@ -2,29 +2,30 @@
 
 import { useMemo, useState } from "react";
 import { MessageCircle, Send } from "lucide-react";
-import { CatalogItem } from "@/constants/catalog";
-
-const WHATSAPP_URL = "https://wa.me/5521987172463";
+import { CATALOG_CATEGORIES, CatalogItem } from "@/constants/catalog";
+import { sendWhatsAppMessage } from "@/lib/whatsapp";
 
 export function QuoteForm({ item }: { item: CatalogItem }) {
   const personalized = item.category === "papelaria-e-personalizados";
+  const categoryName =
+    CATALOG_CATEGORIES.find((c) => c.slug === item.category)?.name ?? "";
   const [nome, setNome] = useState("");
   const [tema, setTema] = useState("");
   const [quantidade, setQuantidade] = useState("");
   const [observacoes, setObservacoes] = useState("");
 
-  const message = useMemo(() => {
-    const parts = [
-      `Olá! Vi o produto ${item.name} no site da Papel e Sonhos e gostaria de solicitar um orçamento.`,
-    ];
-    if (personalized && nome.trim()) parts.push(`Nome: ${nome.trim()}`);
-    if (personalized && tema.trim()) parts.push(`Tema: ${tema.trim()}`);
-    if (personalized && quantidade.trim()) parts.push(`Quantidade: ${quantidade.trim()}`);
-    if (observacoes.trim()) parts.push(`Observações: ${observacoes.trim()}`);
-    return parts.join("\n");
-  }, [item.name, personalized, nome, tema, quantidade, observacoes]);
-
-  const whatsappLink = `${WHATSAPP_URL}?text=${encodeURIComponent(message)}`;
+  const whatsappLink = useMemo(
+    () =>
+      sendWhatsAppMessage({
+        produto: item.name,
+        categoria: categoryName,
+        quantidade,
+        cliente: nome,
+        tema,
+        observacoes,
+      }),
+    [item.name, categoryName, nome, tema, quantidade, observacoes]
+  );
 
   const inputClass =
     "w-full px-4 py-3 rounded-xl bg-muted border-none outline-none focus:ring-2 focus:ring-primary text-sm";

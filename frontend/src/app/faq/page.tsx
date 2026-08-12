@@ -2,6 +2,10 @@
 
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
+import {
+  DEFAULT_WHATSAPP_MESSAGE,
+  whatsappLink,
+} from "@/lib/whatsapp";
 
 const faqData = [
   {
@@ -110,7 +114,7 @@ export default function FAQPage() {
             Não encontrou o que procurava?
           </p>
           <a
-            href="https://wa.me/5521987172463"
+            href={whatsappLink(DEFAULT_WHATSAPP_MESSAGE)}
             target="_blank"
             className="inline-flex items-center gap-2 px-6 py-3 bg-[#25d366] text-white rounded-xl font-medium hover:bg-[#20ba5a] transition-colors"
           >

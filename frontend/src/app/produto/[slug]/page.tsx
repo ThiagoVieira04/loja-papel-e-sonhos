@@ -6,7 +6,6 @@ import {
   ArrowRight,
   CheckCircle2,
   Info,
-  MessageCircle,
   Palette,
 } from "lucide-react";
 import {
@@ -18,6 +17,7 @@ import {
 import { getCatalogIcon, getCategoryStyle } from "@/lib/catalog-ui";
 import { ItemGallery } from "@/components/catalog/item-gallery";
 import { QuoteForm } from "@/components/catalog/quote-form";
+import { QuoteButtons } from "@/components/whatsapp/quote-buttons";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -147,6 +147,11 @@ export default async function ProductDetailPage({ params }: PageProps) {
                   da sua solicitação.
                 </p>
               </div>
+
+              <QuoteButtons
+                produto={item.name}
+                categoria={category?.name ?? ""}
+              />
             </div>
           </div>
         </div>
@@ -188,19 +193,14 @@ export default async function ProductDetailPage({ params }: PageProps) {
                         </h3>
                       </div>
                     </Link>
-                    <div className="px-4 pb-4">
-                      <a
-                        href={`https://wa.me/5521987172463?text=${encodeURIComponent(
-                          `Olá! Vi o produto ${rel.name} no site da Papel e Sonhos e gostaria de solicitar um orçamento.`
-                        )}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 text-green-600 dark:text-green-400 text-xs font-bold hover:underline"
-                      >
-                        <MessageCircle className="w-3.5 h-3.5" />
-                        Solicitar orçamento
-                      </a>
-                    </div>
+<div className="px-4 pb-4">
+                  <QuoteButtons
+                    produto={rel.name}
+                    categoria={category?.name ?? ""}
+                    variante="compacto"
+                    mostrarFalar={false}
+                  />
+                </div>
                   </div>
                 );
               })}

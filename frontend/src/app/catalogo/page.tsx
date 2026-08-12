@@ -2,16 +2,13 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { ArrowRight, Eye, MessageCircle, Search } from "lucide-react";
+import { ArrowRight, Eye, Search } from "lucide-react";
 import {
   CATALOG_CATEGORIES,
   CATALOG_ITEMS,
 } from "@/constants/catalog";
 import { getCatalogIcon, getCategoryStyle } from "@/lib/catalog-ui";
-
-const WHATSAPP_URL = "https://wa.me/5521987172463";
-const waWithText = (text: string) =>
-  `https://wa.me/5521987172463?text=${encodeURIComponent(text)}`;
+import { QuoteButtons } from "@/components/whatsapp/quote-buttons";
 
 const getCategory = (slug: string) =>
   CATALOG_CATEGORIES.find((c) => c.slug === slug);
@@ -167,17 +164,11 @@ export default function CatalogoPage() {
                           <Eye className="w-4 h-4" />
                           Ver detalhes
                         </Link>
-                        <a
-                          href={waWithText(
-                            `Olá! Gostaria de solicitar um orçamento para ${item.name}.`
-                          )}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex w-full items-center justify-center gap-2 px-4 py-2.5 bg-green-500 text-white text-sm font-bold rounded-xl hover:bg-green-600 transition-colors"
-                        >
-                          <MessageCircle className="w-4 h-4" />
-                          Solicitar orçamento
-                        </a>
+                        <QuoteButtons
+                          produto={item.name}
+                          categoria={cat?.name ?? ""}
+                          variante="compacto"
+                        />
                       </div>
                     </div>
                   );
