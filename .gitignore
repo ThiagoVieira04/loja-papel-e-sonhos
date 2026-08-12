@@ -21,3 +21,5 @@ backend/*.log
 .idea/
 *.swp
 *.swo
+
+.vercel
