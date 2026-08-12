@@ -18,6 +18,7 @@ interface LightboxProps {
   currentIndex: number;
   onClose: () => void;
   onNavigate: (index: number) => void;
+  gradients?: Record<string, string>;
 }
 
 export function Lightbox({
@@ -25,9 +26,12 @@ export function Lightbox({
   currentIndex,
   onClose,
   onNavigate,
+  gradients,
 }: LightboxProps) {
   const item = items[currentIndex];
-  const gradient = item ? GALLERY_GRADIENTS[item.category] : "";
+  const gradient = item
+    ? (gradients ?? GALLERY_GRADIENTS)[item.category] ?? "from-primary to-secondary"
+    : "";
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {

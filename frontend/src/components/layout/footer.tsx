@@ -7,7 +7,7 @@ const footerLinks = {
     { label: "Home", href: "/" },
     { label: "Produtos", href: "/produtos" },
     { label: "Serviços", href: "/servicos" },
-    { label: "Galeria", href: "/galeria" },
+    { label: "Nossos Trabalhos", href: "/trabalhos" },
     { label: "Categorias", href: "/categorias" },
     { label: "FAQ", href: "/faq" },
   ],

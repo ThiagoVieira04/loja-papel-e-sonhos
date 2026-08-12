@@ -7,10 +7,11 @@ import {
 interface GalleryCardProps {
   item: GalleryItem;
   onOpen: (item: GalleryItem) => void;
+  gradient?: string;
 }
 
-export function GalleryCard({ item, onOpen }: GalleryCardProps) {
-  const gradient = GALLERY_GRADIENTS[item.category];
+export function GalleryCard({ item, onOpen, gradient: gradientProp }: GalleryCardProps) {
+  const gradient = gradientProp ?? GALLERY_GRADIENTS[item.category] ?? "from-primary to-secondary";
 
   return (
     <button

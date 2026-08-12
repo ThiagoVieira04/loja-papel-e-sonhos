@@ -10,7 +10,7 @@ export type GalleryCategory = (typeof GALLERY_CATEGORIES)[number];
 export interface GalleryItem {
   id: string;
   title: string;
-  category: GalleryCategory;
+  category: string;
   description: string;
   image?: string;
   tags: string[];
@@ -83,7 +83,7 @@ export const GALLERY_ITEMS: GalleryItem[] = [
   },
 ];
 
-export const GALLERY_GRADIENTS: Record<GalleryCategory, string> = {
+export const GALLERY_GRADIENTS: Record<string, string> = {
   "Papelaria Personalizada": "from-pink-400 to-rose-500",
   Lembrancinhas: "from-purple-400 to-pink-500",
   "Topos de Bolo": "from-rose-400 to-red-500",

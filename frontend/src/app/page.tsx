@@ -21,9 +21,9 @@ import {
   Users,
 } from "lucide-react";
 import {
-  GALLERY_GRADIENTS,
-  GALLERY_ITEMS,
-} from "@/constants/gallery";
+  WORK_GRADIENTS,
+  WORK_ITEMS,
+} from "@/constants/works";
 
 export const metadata: Metadata = {
   title: "Papel e Sonhos | Papelaria Criativa e Informática",
@@ -431,12 +431,12 @@ export default function HomePage() {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {GALLERY_ITEMS.slice(0, 4).map((item) => {
-              const gradient = GALLERY_GRADIENTS[item.category];
+            {WORK_ITEMS.slice(0, 4).map((item) => {
+              const gradient = WORK_GRADIENTS[item.category];
               return (
                 <Link
                   key={item.id}
-                  href="/galeria"
+                  href="/trabalhos"
                   className="group rounded-3xl border border-border bg-card overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
                 >
                   <div
@@ -466,7 +466,7 @@ export default function HomePage() {
 
           <div className="text-center mt-10">
             <Link
-              href="/galeria"
+              href="/trabalhos"
               className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-white font-bold rounded-full hover:bg-primary/90 hover:-translate-y-0.5 transition-all shadow-lg shadow-primary/25"
             >
               Ver todos os trabalhos
