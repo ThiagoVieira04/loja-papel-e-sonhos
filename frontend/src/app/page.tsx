@@ -255,11 +255,11 @@ export default function HomePage() {
                 <div className="absolute inset-4 rounded-[2rem] border border-white/10 bg-white/5 backdrop-blur-md flex flex-col items-center justify-center gap-4 text-center p-8 overflow-hidden">
                   <div className="absolute top-8 left-1/2 -translate-x-1/2 w-24 h-24 rounded-full bg-primary/30 blur-2xl animate-pulse" />
                   <div className="absolute bottom-8 right-10 w-16 h-16 rounded-full bg-secondary/30 blur-2xl animate-pulse" style={{ animationDelay: "0.5s" }} />
-                  <div className="relative w-28 h-28 rounded-full bg-gradient-to-br from-primary/25 via-secondary/15 to-transparent ring-1 ring-white/25 shadow-[0_0_50px_rgba(209,30,90,0.35)] flex items-center justify-center animate-float">
+                  <div className="relative w-32 h-32 rounded-full bg-gradient-to-br from-primary/25 via-secondary/15 to-transparent ring-1 ring-white/25 shadow-[0_0_50px_rgba(209,30,90,0.35)] flex items-center justify-center animate-float">
                     <img
                       src="/logo.png"
                       alt="Papel e Sonhos"
-                      className="w-20 h-20 object-contain drop-shadow-[0_0_18px_rgba(209,30,90,0.55)]"
+                      className="w-24 h-24 object-contain drop-shadow-[0_0_18px_rgba(209,30,90,0.55)]"
                     />
                   </div>
                   <p className="relative text-white/80 font-bold text-lg drop-shadow-[0_0_12px_rgba(209,30,90,0.6)]">
