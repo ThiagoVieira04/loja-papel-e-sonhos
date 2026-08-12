@@ -116,7 +116,7 @@ export function Header() {
                 Nossos Trabalhos
               </Link>
               <Link
-                href="/#sobre"
+                href="/sobre"
                 className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                   scrolled || !isHome
                     ? "text-foreground hover:bg-muted"
@@ -126,7 +126,7 @@ export function Header() {
                 Sobre
               </Link>
               <Link
-                href="/#contato"
+                href="/contato"
                 className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                   scrolled || !isHome
                     ? "text-foreground hover:bg-muted"
@@ -348,14 +348,14 @@ export function Header() {
                 Nossos Trabalhos
               </Link>
               <Link
-                href="/#sobre"
+                href="/sobre"
                 onClick={() => setMobileMenu(false)}
                 className="block px-4 py-3 rounded-xl text-foreground hover:bg-muted font-medium"
               >
                 Sobre
               </Link>
               <Link
-                href="/#contato"
+                href="/contato"
                 onClick={() => setMobileMenu(false)}
                 className="block px-4 py-3 rounded-xl text-foreground hover:bg-muted font-medium"
               >

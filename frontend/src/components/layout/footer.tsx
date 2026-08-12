@@ -5,11 +5,11 @@ import Link from "next/link";
 const footerLinks = {
   navegacao: [
     { label: "Home", href: "/" },
-    { label: "Produtos", href: "/produtos" },
+    { label: "Catálogo", href: "/catalogo" },
     { label: "Serviços", href: "/servicos" },
     { label: "Nossos Trabalhos", href: "/trabalhos" },
-    { label: "Categorias", href: "/categorias" },
-    { label: "FAQ", href: "/faq" },
+    { label: "Sobre", href: "/sobre" },
+    { label: "Contato", href: "/contato" },
   ],
   servicos: [
     { label: "Papelaria Criativa", href: "/categorias/papelaria-personalizada" },
