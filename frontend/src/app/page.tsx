@@ -1,437 +1,503 @@
-"use client";
-
-import { useEffect, useState } from "react";
+import type { Metadata } from "next";
 import Link from "next/link";
-import { api } from "@/lib/api";
-import { formatPrice } from "@/lib/utils";
-import { useCartStore } from "@/store/cart-store";
-import { Product, Category } from "@/types";
-import { Sparkles, ChevronRight, ShoppingBag, ArrowRight, Clock } from "lucide-react";
-import "swiper/css";
-import "swiper/css/pagination";
+import {
+  ArrowRight,
+  Book,
+  Cake,
+  Camera,
+  Coffee,
+  Gem,
+  Gift,
+  Globe,
+  Heart,
+  Laptop,
+  MessageCircle,
+  Printer,
+  Scissors,
+  Shirt,
+  Sparkles,
+  Star,
+  Sticker,
+  Users,
+} from "lucide-react";
+import {
+  GALLERY_GRADIENTS,
+  GALLERY_ITEMS,
+} from "@/constants/gallery";
+
+export const metadata: Metadata = {
+  title: "Papel e Sonhos | Papelaria Criativa e Informática",
+  description:
+    "Transformamos ideias em memórias que encantam! Produtos personalizados, papelaria criativa e serviços de informática para deixar cada momento ainda mais especial.",
+  openGraph: {
+    type: "website",
+    locale: "pt_BR",
+    siteName: "Papel e Sonhos",
+    title: "Papel e Sonhos | Papelaria Criativa e Informática",
+    description:
+      "Transformamos ideias em memórias que encantam! Produtos personalizados, papelaria criativa e serviços de informática.",
+  },
+};
+
+const WHATSAPP_URL = "https://wa.me/5521987172463";
+const waWithText = (text: string) =>
+  `https://wa.me/5521987172463?text=${encodeURIComponent(text)}`;
+
+const CATEGORY_CARDS = [
+  {
+    icon: Scissors,
+    title: "Papelaria e Personalizados",
+    description:
+      "Convites, topo de bolo, kits de festa e lembrancinhas para celebrar cada momento.",
+    href: "/categorias/papelaria-personalizada",
+    gradient: "from-pink-500 to-rose-500",
+  },
+  {
+    icon: Printer,
+    title: "Impressão e Gráfica",
+    description:
+      "Impressões, xerox, encadernação e materiais gráficos com acabamento de qualidade.",
+    href: "/categorias/impressao",
+    gradient: "from-emerald-500 to-teal-500",
+  },
+  {
+    icon: Laptop,
+    title: "Informática",
+    description:
+      "Formatação, consertos, recuperação de contas e suporte técnico para o dia a dia.",
+    href: "/categorias/informatica",
+    gradient: "from-indigo-500 to-violet-500",
+  },
+  {
+    icon: Globe,
+    title: "Serviços Digitais",
+    description:
+      "Documentos, aposentadoria, MEI e soluções digitais resolvidas sem complicação.",
+    href: "/servicos",
+    gradient: "from-amber-500 to-orange-500",
+  },
+];
+
+const FEATURED_ITEMS = [
+  {
+    icon: Cake,
+    title: "Topos de bolo",
+    href: "/categorias/topos-de-bolo",
+    gradient: "from-rose-400 to-pink-500",
+  },
+  {
+    icon: Coffee,
+    title: "Canecas personalizadas",
+    href: "/categorias/canecas",
+    gradient: "from-amber-400 to-orange-500",
+  },
+  {
+    icon: Shirt,
+    title: "Camisas personalizadas",
+    href: "/categorias/camisas",
+    gradient: "from-sky-400 to-blue-500",
+  },
+  {
+    icon: Book,
+    title: "Agendas",
+    href: "/categorias/agendas",
+    gradient: "from-violet-400 to-purple-500",
+  },
+  {
+    icon: Gift,
+    title: "Lembrancinhas",
+    href: "/categorias/lembrancinhas",
+    gradient: "from-fuchsia-400 to-pink-500",
+  },
+  {
+    icon: Sticker,
+    title: "Adesivos",
+    href: "/categorias/adesivos",
+    gradient: "from-emerald-400 to-teal-500",
+  },
+];
+
+const TRUST_ITEMS = [
+  {
+    icon: Users,
+    title: "Atendimento personalizado",
+    description:
+      "Cada pedido é tratado com atenção única, do primeiro contato à entrega.",
+  },
+  {
+    icon: Heart,
+    title: "Produtos feitos com carinho",
+    description:
+      "Muita dedicação e capricho em cada peça para tornar seu momento especial.",
+  },
+  {
+    icon: Gem,
+    title: "Qualidade em cada detalhe",
+    description:
+      "Materiais selecionados e acabamento impecável em todos os projetos.",
+  },
+  {
+    icon: MessageCircle,
+    title: "Praticidade pelo WhatsApp",
+    description:
+      "Orçamento rápido e atendimento direto pelo seu celular, sem burocracia.",
+  },
+];
 
 export default function HomePage() {
-  const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
-  const [categories, setCategories] = useState<Category[]>([]);
-  const addItem = useCartStore((s) => s.addItem);
-
-  useEffect(() => {
-    api.get("/products/featured?limit=8").then(setFeaturedProducts).catch(() => {});
-    api.get("/categories").then(setCategories).catch(() => {});
-  }, []);
-
-  const productCategories = categories.filter((c) => c.type === "product");
-  const serviceCategories = categories.filter((c) => c.type === "service");
-
   return (
     <div>
-      {/* Hero Section */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Store",
+            name: "Papel e Sonhos",
+            description:
+              "Papelaria criativa e informática. Produtos personalizados, impressão e serviços digitais.",
+            telephone: "+55-21-98717-2463",
+            priceRange: "Sob consulta",
+            areaServed: "Rio de Janeiro, RJ",
+          }),
+        }}
+      />
+
+      {/* HERO */}
       <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-gradient-to-br from-[#1a0a0e] via-[#2c1a1d] to-[#1a0a0e]">
         <div className="absolute inset-0">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_20%_50%,rgba(209,30,90,0.15)_0%,transparent_60%),radial-gradient(ellipse_at_80%_20%,rgba(227,27,109,0.1)_0%,transparent_50%)]" />
           <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent" />
         </div>
-        <div className="container relative z-10 pt-24 pb-16">
-          <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/20 border border-white/10 text-white/90 text-sm font-medium mb-6 backdrop-blur-sm">
-              <Sparkles className="w-4 h-4 text-primary" />
-              Há mais de 5 anos transformando ideias
-            </div>
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-white leading-tight mb-6">
-              Transformamos{" "}
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-pink-400 via-primary to-pink-300">
-                ideias
-              </span>
-              <br />
-              em memórias que{" "}
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-pink-300 via-primary to-pink-400">
-                encantam
-              </span>
-            </h1>
-            <p className="text-lg md:text-xl text-white/60 max-w-xl mb-8 leading-relaxed">
-              Qualidade, criatividade e carinho em cada detalhe. Da papelaria
-              personalizada à solução digital, estamos aqui para realizar seus
-              projetos.
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <Link
-                href="/produtos"
-                className="group inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-primary to-secondary text-white font-bold rounded-full shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 hover:-translate-y-0.5 transition-all"
+
+        <div className="container relative z-10 pt-28 pb-16">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+            <div className="max-w-xl">
+              <div className="animate-fade-up flex items-center gap-2 text-white/90 mb-6">
+                <span className="text-2xl font-black tracking-tight">Papel &amp; Sonhos</span>
+                <span className="hidden sm:inline-block h-6 w-px bg-white/20" />
+                <span className="hidden sm:inline-block text-sm font-medium text-white/60">
+                  Papelaria Criativa e Informática
+                </span>
+              </div>
+
+              <h1
+                className="animate-fade-up text-4xl md:text-5xl xl:text-6xl font-black text-white leading-tight mb-6"
+                style={{ animationDelay: "100ms" }}
               >
-                Ver Produtos
-                <i className="fas fa-arrow-right w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </Link>
-              <Link
-                href="/servicos"
-                className="inline-flex items-center gap-2 px-8 py-4 bg-white/10 text-white font-bold rounded-full border border-white/20 hover:bg-white/20 transition-all"
+                Transformamos{" "}
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-pink-400 via-primary to-pink-300">
+                  ideias
+                </span>{" "}
+                em memórias que{" "}
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-pink-300 via-primary to-pink-400">
+                  encantam
+                </span>
+                !
+              </h1>
+
+              <p
+                className="animate-fade-up text-lg md:text-xl text-white/60 mb-8 leading-relaxed"
+                style={{ animationDelay: "200ms" }}
               >
-                Nossos Serviços
-              </Link>
+                Produtos personalizados, papelaria criativa e serviços de
+                informática para deixar cada momento ainda mais especial.
+              </p>
+
+              <div
+                className="animate-fade-up flex flex-wrap gap-4"
+                style={{ animationDelay: "300ms" }}
+              >
+                <Link
+                  href="/catalogo"
+                  className="group inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-primary to-secondary text-white font-bold rounded-full shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 hover:-translate-y-0.5 transition-all"
+                >
+                  Ver catálogo
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </Link>
+                <a
+                  href={WHATSAPP_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-8 py-4 bg-green-500 text-white font-bold rounded-full shadow-lg shadow-green-500/30 hover:bg-green-600 hover:-translate-y-0.5 transition-all"
+                >
+                  <MessageCircle className="w-5 h-5" />
+                  Falar pelo WhatsApp
+                </a>
+              </div>
+
+              <div
+                className="animate-fade-up grid grid-cols-2 sm:grid-cols-4 gap-6 mt-14"
+                style={{ animationDelay: "400ms" }}
+              >
+                {[
+                  { icon: Star, label: "Produtos personalizados" },
+                  { icon: Sparkles, label: "Papelaria criativa" },
+                  { icon: Printer, label: "Impressão e gráfica" },
+                  { icon: Laptop, label: "Informática" },
+                ].map((item) => (
+                  <div key={item.label} className="flex flex-col gap-2">
+                    <item.icon className="w-5 h-5 text-primary" />
+                    <span className="text-xs text-white/50">{item.label}</span>
+                  </div>
+                ))}
+              </div>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16">
-              {[
-                { num: "500+", label: "Clientes Atendidos" },
-                { num: "5+", label: "Anos de Experiência" },
-                { num: "1200+", label: "Serviços Realizados" },
-                { num: "24h", label: "Prazo de Atendimento" },
-              ].map((stat) => (
-                <div key={stat.label}>
-                  <p className="text-3xl md:text-4xl font-black text-white">
-                    {stat.num}
+
+            {/* Espaço para imagem/arte principal */}
+            <div
+              className="animate-fade-in relative hidden sm:block"
+              style={{ animationDelay: "300ms" }}
+            >
+              <div className="relative aspect-square max-w-md mx-auto">
+                <div className="absolute inset-0 rounded-[2.5rem] bg-gradient-to-br from-primary/30 via-secondary/20 to-transparent rotate-3 animate-float" />
+
+                <div className="absolute inset-4 rounded-[2rem] border-2 border-dashed border-white/20 bg-white/5 backdrop-blur-sm flex flex-col items-center justify-center gap-4 text-center p-8">
+                  <div className="w-20 h-20 rounded-2xl bg-white/10 flex items-center justify-center">
+                    <Camera className="w-10 h-10 text-primary" />
+                  </div>
+                  <p className="text-white/80 font-bold text-lg">Sua arte aqui</p>
+                  <p className="text-white/50 text-sm max-w-[220px]">
+                    Espaço reservado para a imagem principal da sua festa e dos
+                    nossos trabalhos.
                   </p>
-                  <p className="text-sm text-white/50">{stat.label}</p>
                 </div>
-              ))}
+
+                {[
+                  { icon: Cake, label: "Topos de bolo", className: "top-2 -left-6", delay: "0s" },
+                  { icon: Coffee, label: "Canecas", className: "top-16 -right-8", delay: "0.8s" },
+                  { icon: Sticker, label: "Adesivos", className: "bottom-20 -left-8", delay: "1.6s" },
+                  { icon: Gift, label: "Lembrancinhas", className: "bottom-2 -right-4", delay: "2.4s" },
+                ].map((chip) => (
+                  <div
+                    key={chip.label}
+                    className={`absolute ${chip.className} animate-float flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-white/10 border border-white/15 backdrop-blur-md`}
+                    style={{ animationDelay: chip.delay }}
+                  >
+                    <chip.icon className="w-4 h-4 text-primary" />
+                    <span className="text-xs font-bold text-white">{chip.label}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Categorias */}
+      {/* O QUE VOCÊ PROCURA? */}
       <section className="py-20">
         <div className="container">
           <div className="text-center mb-12">
             <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-bold uppercase tracking-wider mb-4">
-              Categorias
+              Explore
             </span>
             <h2 className="text-3xl md:text-4xl font-black mb-3">
-              Tudo que você precisa em um só lugar
+              O que você procura?
             </h2>
             <p className="text-muted-foreground max-w-xl mx-auto">
-              De papelaria criativa a serviços de informática, temos soluções
-              completas para você.
+              Escolha um dos nossos serviços e descubra tudo o que podemos criar
+              para você.
             </p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-            {categories.slice(0, 12).map((cat, idx) => (
-              <Link
-                key={cat.id}
-                href={`/categorias/${cat.slug}`}
-                className="group relative p-6 rounded-2xl bg-gradient-to-br from-card to-muted/50 border border-border hover:border-primary/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {CATEGORY_CARDS.map((card, idx) => (
+              <div
+                key={card.title}
+                className="group flex flex-col p-7 rounded-3xl bg-card border border-border hover:border-primary/30 hover:-translate-y-1 hover:shadow-xl transition-all duration-300"
               >
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                  <i className={`fas ${cat.icon || "fa-tag"} text-primary`} />
+                <div
+                  className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${card.gradient} bg-opacity-20 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform`}
+                >
+                  <card.icon className="w-7 h-7 text-white" />
                 </div>
-                <h3 className="font-bold text-sm group-hover:text-primary transition-colors">
-                  {cat.name}
-                </h3>
-                <p className="text-xs text-muted-foreground mt-1">
-                  {cat._count?.products || cat._count?.services || 0} itens
+                <h3 className="font-bold text-lg mb-2">{card.title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed mb-6 flex-1">
+                  {card.description}
                 </p>
-              </Link>
+                <Link
+                  href={card.href}
+                  className="inline-flex items-center gap-2 text-sm font-bold text-primary hover:gap-3 transition-all"
+                >
+                  Ver opções <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Produtos em Destaque */}
-      {featuredProducts.length > 0 && (
-        <section className="py-20 bg-muted/30">
-          <div className="container">
-            <div className="flex items-center justify-between mb-10">
-              <div>
-                <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-bold uppercase tracking-wider mb-4">
-                  Destaques
-                </span>
-                <h2 className="text-3xl md:text-4xl font-black">
-                  Produtos em Destaque
-                </h2>
-              </div>
-              <Link
-                href="/produtos"
-                className="hidden md:flex items-center gap-2 text-primary font-medium hover:gap-3 transition-all"
-              >
-                Ver Todos <ChevronRight className="w-4 h-4" />
-              </Link>
-            </div>
-
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {featuredProducts.map((product) => (
-                <Link
-                  key={product.id}
-                  href={`/produtos/${product.slug}`}
-                  className="group bg-card rounded-2xl border border-border overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
-                >
-                  <div className="relative aspect-square bg-muted overflow-hidden">
-                    {product.images?.[0] ? (
-                      <img
-                        src={product.images[0].url}
-                        alt={product.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center text-muted-foreground">
-                        <ShoppingBag className="w-12 h-12" />
-                      </div>
-                    )}
-                    {product.isNew && (
-                      <span className="absolute top-3 left-3 px-2.5 py-1 bg-secondary text-white text-xs font-bold rounded-full">
-                        NOVO
-                      </span>
-                    )}
-                    {product.promotionalPrice && (
-                      <span className="absolute top-3 right-3 px-2.5 py-1 bg-green-500 text-white text-xs font-bold rounded-full">
-                        {Math.round(
-                          (1 - Number(product.promotionalPrice) / Number(product.price)) * 100
-                        )}
-                        % OFF
-                      </span>
-                    )}
-                  </div>
-                  <div className="p-4">
-                    <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">
-                      {product.category?.name}
-                    </p>
-                    <h3 className="font-bold text-sm group-hover:text-primary transition-colors line-clamp-2">
-                      {product.name}
-                    </h3>
-                    <div className="flex items-center gap-2 mt-2">
-                      {product.promotionalPrice ? (
-                        <>
-                          <span className="text-lg font-black text-primary">
-                            {formatPrice(Number(product.promotionalPrice))}
-                          </span>
-                          <span className="text-sm text-muted-foreground line-through">
-                            {formatPrice(Number(product.price))}
-                          </span>
-                        </>
-                      ) : (
-                        <span className="text-lg font-black">
-                          {formatPrice(Number(product.price))}
-                        </span>
-                      )}
-                    </div>
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        addItem({
-                          id: product.id,
-                          type: "product",
-                          name: product.name,
-                          price: Number(product.promotionalPrice || product.price),
-                          quantity: 1,
-                          image: product.images?.[0]?.url,
-                          productId: product.id,
-                        });
-                      }}
-                      className="mt-3 w-full py-2.5 bg-primary/10 text-primary text-sm font-bold rounded-xl hover:bg-primary hover:text-white transition-colors"
-                    >
-                      Adicionar ao Carrinho
-                    </button>
-                  </div>
-                </Link>
-              ))}
-            </div>
-
-            <div className="text-center mt-8 md:hidden">
-              <Link
-                href="/produtos"
-                className="inline-flex items-center gap-2 text-primary font-medium"
-              >
-                Ver Todos <ChevronRight className="w-4 h-4" />
-              </Link>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Serviços */}
-      <section className="py-20">
+      {/* MAIS PROCURADOS */}
+      <section className="py-20 bg-muted/40">
         <div className="container">
           <div className="text-center mb-12">
             <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-bold uppercase tracking-wider mb-4">
-              Serviços
+              Destaques
+            </span>
+            <h2 className="text-3xl md:text-4xl font-black mb-3">Mais procurados</h2>
+            <p className="text-muted-foreground max-w-xl mx-auto">
+              Os itens favoritos de quem já confiou no nosso trabalho.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+            {FEATURED_ITEMS.map((item, idx) => (
+              <div
+                key={item.title}
+                className="group bg-card rounded-3xl border border-border overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+              >
+                <Link href={item.href} className="block">
+                  <div
+                    className={`relative aspect-[4/3] bg-gradient-to-br ${item.gradient} bg-opacity-20 flex items-center justify-center overflow-hidden`}
+                  >
+                    <item.icon className="w-16 h-16 text-white/90 group-hover:scale-110 transition-transform duration-500" />
+                    <span className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-white/90 text-primary text-xs font-bold shadow-sm">
+                      {item.title}
+                    </span>
+                  </div>
+                  <div className="p-4 md:p-5">
+                    <h3 className="font-bold text-sm md:text-base mb-1 group-hover:text-primary transition-colors">
+                      {item.title}
+                    </h3>
+                    <p className="text-sm text-muted-foreground">Consulte o valor</p>
+                  </div>
+                </Link>
+                <div className="px-4 pb-4 md:px-5 md:pb-5">
+                  <a
+                    href={waWithText(
+                      `Olá! Gostaria de solicitar um orçamento para ${item.title}.`
+                    )}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex w-full items-center justify-center gap-2 px-4 py-2.5 bg-green-500 text-white text-sm font-bold rounded-xl hover:bg-green-600 transition-colors"
+                  >
+                    <MessageCircle className="w-4 h-4" />
+                    Solicitar orçamento
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CONFIANÇA */}
+      <section id="sobre" className="py-20 bg-gradient-to-br from-dark-900 via-dark-100 to-dark-900 text-white">
+        <div className="container">
+          <div className="text-center mb-12">
+            <span className="inline-block px-4 py-1.5 rounded-full bg-white/10 text-white text-sm font-bold uppercase tracking-wider mb-4">
+              Por que escolher a Papel e Sonhos
             </span>
             <h2 className="text-3xl md:text-4xl font-black mb-3">
-              Soluções completas para você
+              Cuidado em cada etapa
             </h2>
+            <p className="text-white/60 max-w-xl mx-auto">
+              Do primeiro orçamento à entrega, tudo feito para você confiar e
+              recomendar.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {TRUST_ITEMS.map((item, idx) => (
+              <div
+                key={item.title}
+                className="p-7 rounded-3xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 hover:-translate-y-1 transition-all duration-300"
+              >
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center mb-5">
+                  <item.icon className="w-7 h-7 text-white" />
+                </div>
+                <h3 className="font-bold text-lg mb-2">{item.title}</h3>
+                <p className="text-white/60 text-sm leading-relaxed">
+                  {item.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* GALERIA */}
+      <section id="trabalhos" className="py-20">
+        <div className="container">
+          <div className="text-center mb-12">
+            <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-bold uppercase tracking-wider mb-4">
+              Portfólio
+            </span>
+            <h2 className="text-3xl md:text-4xl font-black mb-3">Nossos trabalhos</h2>
             <p className="text-muted-foreground max-w-xl mx-auto">
-              De documentos a serviços governamentais, resolvemos tudo para você.
+              Um gostinho do que já criamos com carinho. Em breve, as fotos de
+              cada produção.
             </p>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[
-              { icon: "fa-wand-magic-sparkles", label: "Papelaria Personalizada", color: "from-red-500 to-pink-500" },
-              { icon: "fa-print", label: "Impressão e Xerox", color: "from-green-500 to-emerald-500" },
-              { icon: "fa-book-open", label: "Encadernação", color: "from-blue-500 to-cyan-500" },
-              { icon: "fa-gift", label: "Lembrancinhas", color: "from-purple-500 to-pink-500" },
-              { icon: "fa-cake-candles", label: "Topos de Bolo", color: "from-pink-500 to-rose-500" },
-              { icon: "fa-calculator", label: "Imposto de Renda", color: "from-amber-500 to-orange-500" },
-              { icon: "fa-user-clock", label: "Aposentadoria", color: "from-indigo-500 to-blue-500" },
-              { icon: "fa-laptop-medical", label: "Formatação e Consertos", color: "from-slate-500 to-gray-500" },
-            ].map((service, idx) => (
-              <Link
-                key={idx}
-                href={`/servicos?categoria=${service.label.toLowerCase().replace(/ /g, "-")}`}
-                className="group p-6 rounded-2xl bg-card border border-border hover:border-primary/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
-              >
-                <div
-                  className={`w-12 h-12 rounded-xl bg-gradient-to-br ${service.color} bg-opacity-20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}
+            {GALLERY_ITEMS.slice(0, 4).map((item) => {
+              const gradient = GALLERY_GRADIENTS[item.category];
+              return (
+                <Link
+                  key={item.id}
+                  href="/galeria"
+                  className="group rounded-3xl border border-border bg-card overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
                 >
-                  <i className={`fas ${service.icon} text-white`} />
-                </div>
-                <h3 className="font-bold text-sm">{service.label}</h3>
-              </Link>
-            ))}
+                  <div
+                    className={`relative aspect-square bg-gradient-to-br ${gradient} bg-opacity-20 flex items-center justify-center`}
+                  >
+                    <div className="flex flex-col items-center justify-center gap-2 text-muted-foreground">
+                      <div className="w-12 h-12 rounded-2xl bg-white/80 flex items-center justify-center">
+                        <Camera className="w-6 h-6 text-primary" />
+                      </div>
+                      <span className="text-xs font-medium bg-white/70 px-3 py-1 rounded-full">
+                        Foto em breve
+                      </span>
+                    </div>
+                    <span className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-white/90 text-primary text-xs font-bold shadow-sm">
+                      {item.category}
+                    </span>
+                  </div>
+                  <div className="p-4">
+                    <h3 className="font-bold text-sm group-hover:text-primary transition-colors">
+                      {item.title}
+                    </h3>
+                  </div>
+                </Link>
+              );
+            })}
           </div>
 
-          {serviceCategories.length > 0 && (
-            <div className="text-center mt-8">
-              <Link
-                href="/servicos"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white font-bold rounded-full hover:bg-primary/90 transition-colors"
-              >
-                Ver Todos os Serviços <i className="fas fa-arrow-right w-4 h-4" />
-              </Link>
-            </div>
-          )}
-        </div>
-      </section>
-
-      {/* Diferenciais */}
-      <section className="py-20 bg-gradient-to-br from-dark-900 via-dark-100 to-dark-900 text-white">
-        <div className="container">
-          <div className="text-center mb-12">
-            <span className="inline-block px-4 py-1.5 rounded-full bg-white/10 text-white text-sm font-bold uppercase tracking-wider mb-4">
-              Por que nos escolher
-            </span>
-            <h2 className="text-3xl md:text-4xl font-black mb-3">
-              Nossos Diferenciais
-            </h2>
-            <p className="text-white/60 max-w-xl mx-auto">
-              Motivos pelos quais nossos clientes confiam no nosso trabalho.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
-              {
-                icon: "fa-gem",
-                title: "Qualidade Premium",
-                desc: "Materiais selecionados e acabamento impecável em cada projeto.",
-              },
-              {
-                icon: "fa-clock",
-                title: "Rapidez na Entrega",
-                desc: "Serviços expressos para quem precisa com urgência.",
-              },
-              {
-                icon: "fa-heart",
-                title: "Atendimento Humanizado",
-                desc: "Você é tratado pelo nome, com respeito e atenção personalizada.",
-              },
-              {
-                icon: "fa-shield-halved",
-                title: "Satisfação Garantida",
-                desc: "Se não gostar, ajustamos até ficar perfeito. Sem custo extra.",
-              },
-              {
-                icon: "fa-star",
-                title: "Preço Justo",
-                desc: "Orçamento transparente, sem surpresas. Qualidade que cabe no bolso.",
-              },
-              {
-                icon: "fa-truck",
-                title: "Entrega Rápida",
-                desc: "Entregamos na região com agilidade e segurança.",
-              },
-            ].map((diff, idx) => (
-              <div
-                key={idx}
-                className="p-8 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-all duration-300 group"
-              >
-                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
-                  <i className={`fas ${diff.icon} w-6 h-6 text-white`} />
-                </div>
-                <h3 className="text-xl font-bold mb-2">{diff.title}</h3>
-                <p className="text-white/60 text-sm leading-relaxed">{diff.desc}</p>
-              </div>
-            ))}
+          <div className="text-center mt-10">
+            <Link
+              href="/galeria"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-white font-bold rounded-full hover:bg-primary/90 hover:-translate-y-0.5 transition-all shadow-lg shadow-primary/25"
+            >
+              Ver todos os trabalhos
+              <ArrowRight className="w-5 h-5" />
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* Depoimentos */}
-      <section className="py-20">
+      {/* CTA */}
+      <section id="contato" className="py-20">
         <div className="container">
-          <div className="text-center mb-12">
-            <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-bold uppercase tracking-wider mb-4">
-              Depoimentos
-            </span>
-            <h2 className="text-3xl md:text-4xl font-black mb-3">
-              O que nossos clientes dizem
-            </h2>
-            <p className="text-muted-foreground max-w-xl mx-auto">
-              A satisfação de quem já confiou no nosso trabalho.
-            </p>
-          </div>
-
-          <div className="mx-auto" style={{ maxWidth: 345 }}>
-            <div className="p-3 md:p-4 rounded-2xl bg-card border border-border">
-              <h3 className="font-bold text-center mb-3 text-sm">Depoimento em Vídeo</h3>
-              <video
-                src="/video-paulo.mp4"
-                controls
-                className="w-full rounded-xl"
-                preload="metadata"
-              >
-                Seu navegador não suporta vídeo.
-              </video>
-              <p className="text-xs text-muted-foreground text-center mt-3">
-                Paulo - Cliente Papel e Sonhos
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Final */}
-      <section className="py-20">
-        <div className="container">
-          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-dark-900 via-dark-100 to-dark-900 p-12 md:p-20 text-center">
+          <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-dark-900 via-dark-100 to-dark-900 px-6 py-14 md:p-20 text-center">
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_20%_50%,rgba(209,30,90,0.15),transparent_60%),radial-gradient(ellipse_at_80%_50%,rgba(227,27,109,0.1),transparent_50%)]" />
             <div className="relative z-10 max-w-2xl mx-auto">
-              <span className="inline-block px-4 py-1.5 rounded-full bg-white/10 text-white text-sm font-bold uppercase tracking-wider mb-4">
-                Entre em Contato
-              </span>
               <h2 className="text-3xl md:text-5xl font-black text-white mb-4">
-                Vamos transformar sua ideia em realidade?
+                Tem uma ideia? Vamos transformar em realidade!
               </h2>
               <p className="text-white/60 text-lg mb-8">
-                Estamos prontos para atender você. Escolha o canal preferido e
-                fale agora mesmo conosco.
+                Conte para nós o que você está imaginando e solicite seu
+                orçamento.
               </p>
-              <div className="flex flex-wrap justify-center gap-4">
-                <a
-                  href="https://wa.me/5521987172463"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-8 py-4 bg-green-500 text-white font-bold rounded-full hover:bg-green-600 hover:-translate-y-0.5 transition-all shadow-lg shadow-green-500/30"
-                >
-                  <i className="fab fa-whatsapp" /> (21) 98717-2463
-                </a>
-                <a
-                  href="https://instagram.com/papel_e_sonhos0504"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-8 py-4 bg-white/10 text-white font-bold rounded-full border border-white/20 hover:bg-white/20 transition-all"
-                >
-                  <i className="fab fa-instagram" /> @papel_e_sonhos0504
-                </a>
-              </div>
-              <div className="flex flex-wrap justify-center gap-6 mt-8 text-white/50 text-sm">
-                <span className="flex items-center gap-2">
-                  <Clock className="w-4 h-4 text-primary" />
-                  Seg a Sex: 8h às 18h | Sáb: 8h às 12h
-                </span>
-                <span className="flex items-center gap-2">
-                  <i className="fas fa-map-marker-alt text-primary" />
-                  Rio de Janeiro - RJ
-                </span>
-              </div>
+              <a
+                href={WHATSAPP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-8 py-4 bg-green-500 text-white font-bold rounded-full hover:bg-green-600 hover:-translate-y-0.5 transition-all shadow-lg shadow-green-500/30"
+              >
+                <MessageCircle className="w-5 h-5" />
+                Falar pelo WhatsApp
+              </a>
             </div>
           </div>
         </div>
@@ -439,5 +505,3 @@ export default function HomePage() {
     </div>
   );
 }
-
-

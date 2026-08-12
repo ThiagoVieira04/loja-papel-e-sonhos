@@ -6,8 +6,6 @@ import { usePathname } from "next/navigation";
 import { useAuthStore } from "@/store/auth-store";
 import { useCartStore } from "@/store/cart-store";
 import { useTheme } from "next-themes";
-import { api } from "@/lib/api";
-import { Category } from "@/types";
 import {
   Search,
   ShoppingCart,
@@ -15,12 +13,12 @@ import {
   Heart,
   Menu,
   X,
-  ChevronDown,
   Sun,
   Moon,
   LogOut,
   Package,
   Settings,
+  MessageCircle,
 } from "lucide-react";
 
 export function Header() {
@@ -28,7 +26,6 @@ export function Header() {
   const [mobileMenu, setMobileMenu] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [categories, setCategories] = useState<Category[]>([]);
   const [userMenu, setUserMenu] = useState(false);
 
   const pathname = usePathname();
@@ -40,10 +37,6 @@ export function Header() {
     const onScroll = () => setScrolled(window.scrollY > 60);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  useEffect(() => {
-    api.get("/categories").then(setCategories).catch(() => {});
   }, []);
 
   const isHome = pathname === "/";
@@ -80,34 +73,28 @@ export function Header() {
                     : "text-white/80 hover:text-white hover:bg-white/10"
                 }`}
               >
-                Home
+                Início
               </Link>
-              <div className="relative group">
-                <button
-                  className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-1 ${
-                    scrolled || !isHome
-                      ? "text-foreground hover:bg-muted"
-                      : "text-white/80 hover:text-white hover:bg-white/10"
-                  }`}
-                >
-                  Produtos <ChevronDown className="w-3 h-3" />
-                </button>
-                <div className="absolute top-full left-0 mt-1 w-56 bg-white dark:bg-dark-900 rounded-xl shadow-xl border border-border opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                  <div className="p-2 space-y-1">
-                    {categories
-                      .filter((c) => c.type === "product")
-                      .map((cat) => (
-                        <Link
-                          key={cat.id}
-                          href={`/categorias/${cat.slug}`}
-                          className="block px-3 py-2 rounded-lg text-sm text-foreground hover:bg-muted transition-colors"
-                        >
-                          {cat.name}
-                        </Link>
-                      ))}
-                  </div>
-                </div>
-              </div>
+              <Link
+                href="/catalogo"
+                className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  scrolled || !isHome
+                    ? "text-foreground hover:bg-muted"
+                    : "text-white/80 hover:text-white hover:bg-white/10"
+                }`}
+              >
+                Catálogo
+              </Link>
+              <Link
+                href="/categorias/papelaria-personalizada"
+                className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  scrolled || !isHome
+                    ? "text-foreground hover:bg-muted"
+                    : "text-white/80 hover:text-white hover:bg-white/10"
+                }`}
+              >
+                Personalizados
+              </Link>
               <Link
                 href="/servicos"
                 className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
@@ -119,18 +106,51 @@ export function Header() {
                 Serviços
               </Link>
               <Link
-                href="/categorias"
+                href="/galeria"
                 className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                   scrolled || !isHome
                     ? "text-foreground hover:bg-muted"
                     : "text-white/80 hover:text-white hover:bg-white/10"
                 }`}
               >
-                Categorias
+                Nossos Trabalhos
+              </Link>
+              <Link
+                href="/#sobre"
+                className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  scrolled || !isHome
+                    ? "text-foreground hover:bg-muted"
+                    : "text-white/80 hover:text-white hover:bg-white/10"
+                }`}
+              >
+                Sobre
+              </Link>
+              <Link
+                href="/#contato"
+                className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  scrolled || !isHome
+                    ? "text-foreground hover:bg-muted"
+                    : "text-white/80 hover:text-white hover:bg-white/10"
+                }`}
+              >
+                Contato
               </Link>
             </nav>
 
             <div className="flex items-center gap-2">
+              <a
+                href="https://wa.me/5521987172463"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`hidden lg:inline-flex items-center gap-2 px-4 py-2.5 bg-green-500 text-white text-sm font-bold rounded-xl hover:bg-green-600 hover:-translate-y-0.5 transition-all shadow-lg shadow-green-500/25 ${
+                  scrolled || !isHome ? "" : "ring-1 ring-white/10"
+                }`}
+                aria-label="Falar pelo WhatsApp"
+              >
+                <MessageCircle className="w-4 h-4" />
+                WhatsApp
+              </a>
+
               <button
                 onClick={() => setSearchOpen(!searchOpen)}
                 className={`p-2.5 rounded-xl transition-colors ${
@@ -297,14 +317,21 @@ export function Header() {
                 onClick={() => setMobileMenu(false)}
                 className="block px-4 py-3 rounded-xl text-foreground hover:bg-muted font-medium"
               >
-                Home
+                Início
               </Link>
               <Link
-                href="/produtos"
+                href="/catalogo"
                 onClick={() => setMobileMenu(false)}
                 className="block px-4 py-3 rounded-xl text-foreground hover:bg-muted font-medium"
               >
-                Produtos
+                Catálogo
+              </Link>
+              <Link
+                href="/categorias/papelaria-personalizada"
+                onClick={() => setMobileMenu(false)}
+                className="block px-4 py-3 rounded-xl text-foreground hover:bg-muted font-medium"
+              >
+                Personalizados
               </Link>
               <Link
                 href="/servicos"
@@ -314,13 +341,36 @@ export function Header() {
                 Serviços
               </Link>
               <Link
-                href="/categorias"
+                href="/galeria"
                 onClick={() => setMobileMenu(false)}
                 className="block px-4 py-3 rounded-xl text-foreground hover:bg-muted font-medium"
               >
-                Categorias
+                Nossos Trabalhos
+              </Link>
+              <Link
+                href="/#sobre"
+                onClick={() => setMobileMenu(false)}
+                className="block px-4 py-3 rounded-xl text-foreground hover:bg-muted font-medium"
+              >
+                Sobre
+              </Link>
+              <Link
+                href="/#contato"
+                onClick={() => setMobileMenu(false)}
+                className="block px-4 py-3 rounded-xl text-foreground hover:bg-muted font-medium"
+              >
+                Contato
               </Link>
               <hr className="my-2 border-border" />
+              <a
+                href="https://wa.me/5521987172463"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-green-500 text-white font-bold text-center"
+              >
+                <MessageCircle className="w-5 h-5" />
+                WhatsApp
+              </a>
               {!user && (
                 <>
                   <Link
