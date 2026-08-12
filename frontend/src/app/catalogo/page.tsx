@@ -2,101 +2,16 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import {
-  ArrowRight,
-  Book,
-  BookOpen,
-  Briefcase,
-  Cake,
-  Calculator,
-  Camera,
-  ChevronDown,
-  Coffee,
-  Copy,
-  FileCheck,
-  FileText,
-  Flag,
-  FolderOpen,
-  Gift,
-  Globe,
-  Keyboard,
-  KeyRound,
-  Laptop,
-  LayoutGrid,
-  MessageCircle,
-  Monitor,
-  Notebook,
-  PenTool,
-  Printer,
-  Scan,
-  Scissors,
-  Search,
-  Shirt,
-  ShoppingBag,
-  Sticker,
-  UserRound,
-  Wrench,
-} from "lucide-react";
+import { ArrowRight, Eye, MessageCircle, Search } from "lucide-react";
 import {
   CATALOG_CATEGORIES,
   CATALOG_ITEMS,
-  CatalogItem,
 } from "@/constants/catalog";
+import { getCatalogIcon, getCategoryStyle } from "@/lib/catalog-ui";
 
 const WHATSAPP_URL = "https://wa.me/5521987172463";
 const waWithText = (text: string) =>
   `https://wa.me/5521987172463?text=${encodeURIComponent(text)}`;
-
-const ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
-  book: Book,
-  "book-open": BookOpen,
-  briefcase: Briefcase,
-  cake: Cake,
-  calculator: Calculator,
-  camera: Camera,
-  coffee: Coffee,
-  copy: Copy,
-  "file-check": FileCheck,
-  "file-text": FileText,
-  flag: Flag,
-  "folder-open": FolderOpen,
-  gift: Gift,
-  globe: Globe,
-  keyboard: Keyboard,
-  "key-round": KeyRound,
-  laptop: Laptop,
-  "layout-grid": LayoutGrid,
-  monitor: Monitor,
-  notebook: Notebook,
-  "pen-tool": PenTool,
-  printer: Printer,
-  scan: Scan,
-  scissors: Scissors,
-  shirt: Shirt,
-  "shopping-bag": ShoppingBag,
-  sticker: Sticker,
-  "user-round": UserRound,
-  wrench: Wrench,
-};
-
-const CATEGORY_STYLE: Record<string, { gradient: string; badge: string }> = {
-  "papelaria-e-personalizados": {
-    gradient: "from-pink-500 to-rose-500",
-    badge: "bg-pink-100 text-pink-700 dark:bg-pink-500/15 dark:text-pink-300",
-  },
-  "impressao-e-grafica": {
-    gradient: "from-emerald-500 to-teal-500",
-    badge: "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300",
-  },
-  informatica: {
-    gradient: "from-indigo-500 to-violet-500",
-    badge: "bg-indigo-100 text-indigo-700 dark:bg-indigo-500/15 dark:text-indigo-300",
-  },
-  "servicos-digitais": {
-    gradient: "from-amber-500 to-orange-500",
-    badge: "bg-amber-100 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300",
-  },
-};
 
 const getCategory = (slug: string) =>
   CATALOG_CATEGORIES.find((c) => c.slug === slug);
@@ -104,7 +19,6 @@ const getCategory = (slug: string) =>
 export default function CatalogoPage() {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("todos");
-  const [expandedId, setExpandedId] = useState<string | null>(null);
 
   const items = useMemo(() => {
     const term = search.trim().toLowerCase();
@@ -119,10 +33,6 @@ export default function CatalogoPage() {
       return matchesCategory && matchesSearch;
     });
   }, [search, category]);
-
-  const handleToggle = (item: CatalogItem) => {
-    setExpandedId((prev) => (prev === item.id ? null : item.id));
-  };
 
   return (
     <div className="pt-24 pb-16">
@@ -169,8 +79,8 @@ export default function CatalogoPage() {
                   Todos
                 </button>
                 {CATALOG_CATEGORIES.map((cat) => {
-                  const Icon = ICONS[cat.icon] ?? Scissors;
-                  const style = CATEGORY_STYLE[cat.slug];
+                  const Icon = getCatalogIcon(cat.icon);
+                  const style = getCategoryStyle(cat.slug);
                   return (
                     <button
                       key={cat.id}
@@ -221,75 +131,53 @@ export default function CatalogoPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
                 {items.map((item) => {
                   const cat = getCategory(item.category);
-                  const Icon = ICONS[item.icon] ?? ShoppingBag;
-                  const style = CATEGORY_STYLE[item.category];
-                  const isExpanded = expandedId === item.id;
+                  const Icon = getCatalogIcon(item.icon);
+                  const style = getCategoryStyle(item.category);
                   return (
                     <div
                       key={item.id}
                       className="group flex flex-col rounded-3xl border border-border bg-card overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
                     >
-                      <div
-                        className={`relative h-28 bg-gradient-to-br ${style.gradient} bg-opacity-20 flex items-center justify-center`}
-                      >
-                        <Icon className="w-12 h-12 text-white/90 group-hover:scale-110 transition-transform duration-500" />
-                        <span
-                          className={`absolute top-3 left-3 px-2.5 py-1 rounded-full text-xs font-bold ${style.badge}`}
+                      <Link href={`/produto/${item.slug}`} className="block">
+                        <div
+                          className={`relative h-28 bg-gradient-to-br ${style.gradient} bg-opacity-20 flex items-center justify-center`}
                         >
-                          {cat?.name}
-                        </span>
-                      </div>
-
-                      <div className="p-5 flex flex-col flex-1">
-                        <h2 className="font-bold text-base mb-2">{item.name}</h2>
-                        <p className="text-sm text-muted-foreground leading-relaxed mb-4">
-                          {item.summary}
-                        </p>
-
-                        {isExpanded && (
-                          <div className="animate-fade-in mb-4">
-                            <p className="text-sm text-muted-foreground leading-relaxed mb-3">
-                              {item.description}
-                            </p>
-                            <ul className="space-y-1.5">
-                              {item.highlights.map((highlight) => (
-                                <li
-                                  key={highlight}
-                                  className="flex items-start gap-2 text-sm"
-                                >
-                                  <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0" />
-                                  {highlight}
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        )}
-
-                        <div className="mt-auto pt-4 space-y-2">
-                          <button
-                            onClick={() => handleToggle(item)}
-                            className="inline-flex w-full items-center justify-center gap-2 px-4 py-2.5 bg-muted text-foreground text-sm font-bold rounded-xl hover:bg-muted/70 transition-colors"
-                            aria-expanded={isExpanded}
+                          <Icon className="w-12 h-12 text-white/90 group-hover:scale-110 transition-transform duration-500" />
+                          <span
+                            className={`absolute top-3 left-3 px-2.5 py-1 rounded-full text-xs font-bold ${style.badge}`}
                           >
-                            {isExpanded ? "Ver menos" : "Ver detalhes"}
-                            <ChevronDown
-                              className={`w-4 h-4 transition-transform ${
-                                isExpanded ? "rotate-180" : ""
-                              }`}
-                            />
-                          </button>
-                          <a
-                            href={waWithText(
-                              `Olá! Gostaria de solicitar um orçamento para ${item.name}.`
-                            )}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex w-full items-center justify-center gap-2 px-4 py-2.5 bg-green-500 text-white text-sm font-bold rounded-xl hover:bg-green-600 transition-colors"
-                          >
-                            <MessageCircle className="w-4 h-4" />
-                            Solicitar orçamento
-                          </a>
+                            {cat?.name}
+                          </span>
                         </div>
+                        <div className="p-5 flex flex-col flex-1">
+                          <h2 className="font-bold text-base mb-2 group-hover:text-primary transition-colors">
+                            {item.name}
+                          </h2>
+                          <p className="text-sm text-muted-foreground leading-relaxed">
+                            {item.summary}
+                          </p>
+                        </div>
+                      </Link>
+
+                      <div className="px-5 pb-5 mt-auto space-y-2">
+                        <Link
+                          href={`/produto/${item.slug}`}
+                          className="inline-flex w-full items-center justify-center gap-2 px-4 py-2.5 bg-muted text-foreground text-sm font-bold rounded-xl hover:bg-muted/70 transition-colors"
+                        >
+                          <Eye className="w-4 h-4" />
+                          Ver detalhes
+                        </Link>
+                        <a
+                          href={waWithText(
+                            `Olá! Gostaria de solicitar um orçamento para ${item.name}.`
+                          )}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex w-full items-center justify-center gap-2 px-4 py-2.5 bg-green-500 text-white text-sm font-bold rounded-xl hover:bg-green-600 transition-colors"
+                        >
+                          <MessageCircle className="w-4 h-4" />
+                          Solicitar orçamento
+                        </a>
                       </div>
                     </div>
                   );

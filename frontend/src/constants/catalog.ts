@@ -471,6 +471,15 @@ export const CATALOG_ITEMS: CatalogItem[] = [
   },
 ];
 
+export const PERSONALIZATION_OPTIONS: Record<string, string[]> = {
+  "papelaria-e-personalizados": [
+    "Personalização com nome, foto ou frase",
+    "Escolha de tema e paleta de cores",
+    "Tamanhos e formatos variados",
+    "Acabamento premium",
+  ],
+};
+
 export const getCatalogItemBySlug = (slug: string) =>
   CATALOG_ITEMS.find((item) => item.slug === slug);
 
