@@ -159,20 +159,20 @@ export default function CheckoutPage() {
                 <MapPin className="w-5 h-5 text-primary" />
                 <h2 className="text-lg font-bold">Endereço de Entrega</h2>
               </div>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <input
                   type="text"
                   placeholder="CEP"
                   value={address.zipCode}
                   onChange={(e) => setAddress({ ...address, zipCode: e.target.value })}
-                  className="col-span-2 md:col-span-1 px-4 py-2.5 rounded-xl bg-muted border-none outline-none focus:ring-2 focus:ring-primary text-sm"
+                  className="col-span-1 px-4 py-2.5 rounded-xl bg-muted border-none outline-none focus:ring-2 focus:ring-primary text-sm"
                 />
                 <input
                   type="text"
                   placeholder="Rua"
                   value={address.street}
                   onChange={(e) => setAddress({ ...address, street: e.target.value })}
-                  className="col-span-2 px-4 py-2.5 rounded-xl bg-muted border-none outline-none focus:ring-2 focus:ring-primary text-sm"
+                  className="sm:col-span-2 px-4 py-2.5 rounded-xl bg-muted border-none outline-none focus:ring-2 focus:ring-primary text-sm"
                 />
                 <input
                   type="text"
@@ -218,7 +218,7 @@ export default function CheckoutPage() {
                 <CreditCard className="w-5 h-5 text-primary" />
                 <h2 className="text-lg font-bold">Forma de Pagamento</h2>
               </div>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {[
                   { id: "PIX", label: "PIX", icon: QrCode, desc: "Pagamento instantâneo" },
                   { id: "CREDIT_CARD", label: "Cartão de Crédito", icon: CreditCard, desc: "Até 12x" },

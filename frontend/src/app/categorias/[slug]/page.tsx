@@ -112,7 +112,7 @@ export default function CategoryDetailPage() {
                     <p className="text-xs text-muted-foreground mb-3">
                       {product.category?.name}
                     </p>
-                    <div className="flex items-center justify-between">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
                       <div>
                         {product.promotionalPrice ? (
                           <div className="flex items-center gap-2">

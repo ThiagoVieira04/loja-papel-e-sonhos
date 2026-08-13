@@ -35,7 +35,7 @@ export default function ForgotPasswordPage() {
           <ArrowLeft className="w-4 h-4" /> Voltar ao login
         </Link>
 
-        <div className="bg-card rounded-2xl border border-border p-8">
+        <div className="bg-card rounded-2xl border border-border p-6 sm:p-8">
           {sent ? (
             <div className="text-center">
               <div className="w-16 h-16 rounded-2xl bg-green-50 dark:bg-green-900/20 flex items-center justify-center mx-auto mb-4">

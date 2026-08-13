@@ -56,7 +56,7 @@ export default function RegisterPage() {
           </p>
         </div>
 
-        <div className="bg-card rounded-2xl border border-border p-8 space-y-5">
+        <div className="bg-card rounded-2xl border border-border p-6 sm:p-8 space-y-5">
           <GoogleLoginButton />
 
           <div className="relative">

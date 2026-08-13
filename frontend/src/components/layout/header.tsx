@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAuthStore } from "@/store/auth-store";
 import { useCartStore } from "@/store/cart-store";
+import { useCartDrawerStore } from "@/store/cart-drawer-store";
 import { useTheme } from "next-themes";
 import { WHATSAPP_URL } from "@/lib/whatsapp";
 import {
@@ -154,6 +155,7 @@ export function Header() {
 
               <button
                 onClick={() => setSearchOpen(!searchOpen)}
+                aria-label="Buscar"
                 className={`p-2.5 rounded-xl transition-colors ${
                   scrolled || !isHome
                     ? "text-foreground hover:bg-muted"
@@ -165,6 +167,7 @@ export function Header() {
 
               <button
                 onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                aria-label={theme === "dark" ? "Ativar tema claro" : "Ativar tema escuro"}
                 className={`p-2.5 rounded-xl transition-colors hidden md:block ${
                   scrolled || !isHome
                     ? "text-foreground hover:bg-muted"
@@ -178,6 +181,7 @@ export function Header() {
                 <div className="relative">
                   <button
                     onClick={() => setUserMenu(!userMenu)}
+                    aria-label="Menu da conta"
                     className={`p-2.5 rounded-xl transition-colors ${
                       scrolled || !isHome
                         ? "text-foreground hover:bg-muted"
@@ -246,6 +250,7 @@ export function Header() {
               ) : (
                 <Link
                   href="/login"
+                  aria-label="Entrar"
                   className={`p-2.5 rounded-xl transition-colors ${
                     scrolled || !isHome
                       ? "text-foreground hover:bg-muted"
@@ -257,7 +262,8 @@ export function Header() {
               )}
 
               <button
-                onClick={() => useCartStore.getState().getItemsCount() > 0 && setMobileMenu(true)}
+                onClick={() => useCartDrawerStore.getState().setOpen(true)}
+                aria-label="Abrir carrinho"
                 className={`p-2.5 rounded-xl transition-colors relative ${
                   scrolled || !isHome
                     ? "text-foreground hover:bg-muted"
@@ -274,6 +280,7 @@ export function Header() {
 
               <button
                 onClick={() => setMobileMenu(!mobileMenu)}
+                aria-label={mobileMenu ? "Fechar menu" : "Abrir menu"}
                 className={`p-2.5 rounded-xl transition-colors lg:hidden ${
                   scrolled || !isHome
                     ? "text-foreground hover:bg-muted"

@@ -1,13 +1,14 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { useCartStore } from "@/store/cart-store";
+import { useCartDrawerStore } from "@/store/cart-drawer-store";
 import { formatPrice } from "@/lib/utils";
 import { X, ShoppingCart, Trash2, Plus, Minus } from "lucide-react";
 
 export function CartDrawer() {
-  const [open, setOpen] = useState(false);
+  const open = useCartDrawerStore((s) => s.open);
+  const setOpen = useCartDrawerStore((s) => s.setOpen);
   const { items, removeItem, updateQuantity, getTotal, getItemsCount } =
     useCartStore();
 
@@ -15,7 +16,8 @@ export function CartDrawer() {
     <>
       <button
         onClick={() => setOpen(true)}
-        className="fixed bottom-6 left-6 z-40 w-14 h-14 bg-primary rounded-full flex items-center justify-center text-white shadow-lg hover:bg-primary/90 hover:scale-110 transition-all duration-300 md:hidden"
+        aria-label="Abrir carrinho"
+        className="fixed bottom-[calc(1.5rem+env(safe-area-inset-bottom))] left-6 z-40 w-14 h-14 bg-primary rounded-full flex items-center justify-center text-white shadow-lg hover:bg-primary/90 hover:scale-110 transition-all duration-300 md:hidden"
       >
         <ShoppingCart className="w-6 h-6" />
         {getItemsCount() > 0 && (
@@ -26,7 +28,7 @@ export function CartDrawer() {
       </button>
 
       {open && (
-        <div className="fixed inset-0 z-50">
+        <div className="fixed inset-0 z-[60]">
           <div
             className="fixed inset-0 bg-black/50 backdrop-blur-sm"
             onClick={() => setOpen(false)}
@@ -41,6 +43,7 @@ export function CartDrawer() {
               </div>
               <button
                 onClick={() => setOpen(false)}
+                aria-label="Fechar carrinho"
                 className="p-2 rounded-lg hover:bg-muted transition-colors"
               >
                 <X className="w-5 h-5" />

@@ -39,7 +39,7 @@ export default function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
   const { user, logout, loadProfile } = useAuthStore();
@@ -47,6 +47,14 @@ export default function AdminLayout({
   useEffect(() => {
     loadProfile();
   }, [loadProfile]);
+
+  useEffect(() => {
+    const mql = window.matchMedia("(min-width: 1024px)");
+    setSidebarOpen(mql.matches);
+    const onChange = (e: MediaQueryListEvent) => setSidebarOpen(e.matches);
+    mql.addEventListener("change", onChange);
+    return () => mql.removeEventListener("change", onChange);
+  }, []);
 
   useEffect(() => {
     if (user && user.role !== "ADMIN" && user.role !== "STAFF") {
@@ -68,9 +76,17 @@ export default function AdminLayout({
 
   return (
     <div className="min-h-screen bg-muted/30">
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 z-30 bg-black/40 lg:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
       <aside
         className={`fixed top-0 left-0 z-40 h-full bg-card border-r border-border transition-all duration-300 ${
-          sidebarOpen ? "w-64" : "w-16"
+          sidebarOpen
+            ? "translate-x-0 w-64"
+            : "-translate-x-full lg:translate-x-0 lg:w-16"
         }`}
       >
         <div className="flex items-center justify-between p-4 border-b border-border">
@@ -81,6 +97,7 @@ export default function AdminLayout({
           )}
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
+            aria-label={sidebarOpen ? "Recolher menu" : "Expandir menu"}
             className="p-1.5 rounded-lg hover:bg-muted transition-colors"
           >
             <ChevronLeft
@@ -131,8 +148,8 @@ export default function AdminLayout({
       </aside>
 
       <div
-        className={`transition-all duration-300 ${
-          sidebarOpen ? "ml-64" : "ml-16"
+        className={`transition-all duration-300 ml-0 ${
+          sidebarOpen ? "lg:ml-64" : "lg:ml-16"
         }`}
       >
         <header className="sticky top-0 z-30 bg-background/95 backdrop-blur-xl border-b border-border">
@@ -172,7 +189,7 @@ export default function AdminLayout({
             </div>
           </div>
         </header>
-        <div className="p-6">{children}</div>
+        <div className="p-4 lg:p-6">{children}</div>
       </div>
     </div>
   );
