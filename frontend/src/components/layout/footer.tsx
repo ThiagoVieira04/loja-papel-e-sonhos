@@ -8,8 +8,6 @@ const footerLinks = {
   navegacao: [
     { label: "Home", href: "/" },
     { label: "Catálogo", href: "/catalogo" },
-    { label: "Serviços", href: "/servicos" },
-    { label: "Nossos Trabalhos", href: "/trabalhos" },
     { label: "Sobre", href: "/sobre" },
     { label: "Contato", href: "/contato" },
   ],

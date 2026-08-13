@@ -88,36 +88,6 @@ export function Header() {
                 Catálogo
               </Link>
               <Link
-                href="/categorias/papelaria-personalizada"
-                className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  scrolled || !isHome
-                    ? "text-foreground hover:bg-muted"
-                    : "text-white/80 hover:text-white hover:bg-white/10"
-                }`}
-              >
-                Personalizados
-              </Link>
-              <Link
-                href="/servicos"
-                className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  scrolled || !isHome
-                    ? "text-foreground hover:bg-muted"
-                    : "text-white/80 hover:text-white hover:bg-white/10"
-                }`}
-              >
-                Serviços
-              </Link>
-              <Link
-                href="/trabalhos"
-                className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  scrolled || !isHome
-                    ? "text-foreground hover:bg-muted"
-                    : "text-white/80 hover:text-white hover:bg-white/10"
-                }`}
-              >
-                Nossos Trabalhos
-              </Link>
-              <Link
                 href="/sobre"
                 className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                   scrolled || !isHome
@@ -333,27 +303,6 @@ export function Header() {
                 className="block px-4 py-3 rounded-xl text-foreground hover:bg-muted font-medium"
               >
                 Catálogo
-              </Link>
-              <Link
-                href="/categorias/papelaria-personalizada"
-                onClick={() => setMobileMenu(false)}
-                className="block px-4 py-3 rounded-xl text-foreground hover:bg-muted font-medium"
-              >
-                Personalizados
-              </Link>
-              <Link
-                href="/servicos"
-                onClick={() => setMobileMenu(false)}
-                className="block px-4 py-3 rounded-xl text-foreground hover:bg-muted font-medium"
-              >
-                Serviços
-              </Link>
-              <Link
-                href="/trabalhos"
-                onClick={() => setMobileMenu(false)}
-                className="block px-4 py-3 rounded-xl text-foreground hover:bg-muted font-medium"
-              >
-                Nossos Trabalhos
               </Link>
               <Link
                 href="/sobre"
