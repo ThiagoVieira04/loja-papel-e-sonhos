@@ -20,11 +20,13 @@ import {
   X,
   LogOut,
   Bell,
+  Tags,
 } from "lucide-react";
 
 const sidebarLinks = [
   { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
   { label: "Produtos", href: "/admin/produtos", icon: Package },
+  { label: "Categorias", href: "/admin/categorias", icon: Tags },
   { label: "Serviços", href: "/admin/servicos", icon: Wrench },
   { label: "Pedidos", href: "/admin/pedidos", icon: ShoppingCart },
   { label: "Clientes", href: "/admin/clientes", icon: Users },

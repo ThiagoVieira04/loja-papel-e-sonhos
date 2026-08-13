@@ -66,6 +66,17 @@ export default function EditProductPage() {
     setLoading(true);
 
     try {
+      const uploadedUrls: string[] = [];
+      for (let i = 0; i < newImages.length; i++) {
+        const uploaded = await uploadFile(newImages[i], token);
+        uploadedUrls.push(uploaded.url);
+      }
+
+      const allImages = [
+        ...existingImages.map((img) => ({ url: img.url, alt: img.alt })),
+        ...uploadedUrls.map((url) => ({ url, alt: form.name })),
+      ];
+
       await api.put(
         `/products/${id}`,
         {
@@ -76,7 +87,7 @@ export default function EditProductPage() {
             : null,
           stock: parseInt(form.stock) || 0,
           productionDays: parseInt(form.productionDays) || 3,
-          images: existingImages.map((img, i) => ({
+          images: allImages.map((img, i) => ({
             url: img.url,
             alt: img.alt,
             order: i,
@@ -85,19 +96,6 @@ export default function EditProductPage() {
         },
         token
       );
-
-      for (let i = 0; i < newImages.length; i++) {
-        try {
-          const uploaded = await uploadFile(newImages[i], token);
-          await api.post(
-            "/upload/single",
-            { url: uploaded.url, productId: id },
-            token
-          );
-        } catch {
-          // Continue
-        }
-      }
 
       toast.success("Produto atualizado com sucesso!");
       router.push("/admin/produtos");

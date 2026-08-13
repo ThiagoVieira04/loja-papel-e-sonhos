@@ -9,8 +9,8 @@ export class CategoriesController {
   constructor(private categoriesService: CategoriesService) {}
 
   @Get()
-  findAll(@Query('type') type?: string) {
-    return this.categoriesService.findAll(type);
+  findAll(@Query('type') type?: string, @Query('isActive') isActive?: string) {
+    return this.categoriesService.findAll(type, isActive);
   }
 
   @Get(':slug')

@@ -6,8 +6,9 @@ import * as slugify from 'slugify';
 export class CategoriesService {
   constructor(private prisma: PrismaService) {}
 
-  async findAll(type?: string) {
-    const where: any = { isActive: true };
+  async findAll(type?: string, isActive?: string) {
+    const where: any = {};
+    if (isActive !== 'all') where.isActive = isActive === undefined ? true : isActive === 'true';
     if (type) where.type = type;
     return this.prisma.category.findMany({
       where,

@@ -39,7 +39,13 @@ export default function NewProductPage() {
     setLoading(true);
 
     try {
-      const product = await api.post(
+      const uploadedUrls: string[] = [];
+      for (let i = 0; i < images.length; i++) {
+        const uploaded = await uploadFile(images[i], token);
+        uploadedUrls.push(uploaded.url);
+      }
+
+      await api.post(
         "/products",
         {
           ...form,
@@ -49,24 +55,15 @@ export default function NewProductPage() {
             : null,
           stock: parseInt(form.stock) || 0,
           productionDays: parseInt(form.productionDays) || 3,
+          images: uploadedUrls.map((url, i) => ({
+            url,
+            alt: form.name,
+            order: i,
+            isPrimary: i === 0,
+          })),
         },
         token
       );
-
-      if (images.length > 0) {
-        for (let i = 0; i < images.length; i++) {
-          try {
-            const uploaded = await uploadFile(images[i], token);
-            await api.post(
-              "/products",
-              { ...product, images: [{ url: uploaded.url, order: i, isPrimary: i === 0 }] },
-              token
-            );
-          } catch {
-            // Image upload failed but product was created
-          }
-        }
-      }
 
       toast.success("Produto criado com sucesso!");
       router.push("/admin/produtos");
